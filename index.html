@@ -29,7 +29,7 @@
     <script type="text/babel">
         const { useState, useEffect, useMemo } = React;
 
-        // --- Icons ---
+        // --- アイコンコンポーネント ---
         const IconGem = ({ color = "currentColor", size = 20, fill = "none", className="" }) => (
             <svg width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
                 <path d="M6 3h12l4 6-10 12L2 9z"/><path d="M11 3 8 9l3 12"/><path d="m13 3 3 6-3 12"/><path d="M2 9h20"/>
@@ -61,7 +61,6 @@
         ];
         const CPU_CONFIG = { id: 'cpu', label: '黒金剛石(CPU)', bg: 'bg-gray-800' };
 
-        // お題リストの拡充 (中二病・メルヘン追加)
         const ODAI_LIST = [
             "銀行の窓口にて、担当の行員へ", "復活した魔王が、勇者一行へ", "爆弾解体中、震える相棒へ",
             "デートの別れ際、パートナーへ", "最終面接の場、社長へ", "宇宙船内、地球人へ",
@@ -69,28 +68,26 @@
             "コンビニレジ、袋詰め中の店員へ", "崖っぷち、追い詰めた犯人へ", "初めての挨拶、彼女の両親へ",
             "手術室、メスを握る外科医へ", "お化け屋敷、襲いかかる幽霊へ", "取調室、カツ丼を出す刑事へ",
             "無重力空間、漂う同僚士へ", "お菓子の家の玄関、魔女に向かって", "星屑を釣るボートの上で",
-            "魔法が解けそうな深夜0時の舞踏会", "しゃべるウサギのティーパーティーで",
-            "封印されし右腕が疼く放課後の教室で", "漆黒の翼を広げた堕天使の降臨シーン",
-            "異界の門が開こうとしている地下通路", "魔眼の力が暴走しそうな図書室の隅",
-            "聖戦の火蓋が切って落とされた雨の屋上", "森の奥、巨大な喋るキノコを前に",
-            "シュガーキャッスルの gingerbread 衛兵へ", "三日月のブランコに揺られる妖精へ",
-            "呪われた聖剣を引き抜こうとする瞬間", "暗黒組織の幹部が集まる円卓の会議で"
+            "舞踏会、魔法が解ける深夜0時", "喋るウサギのティーパーティーで",
+            "封印されし右腕が疼く放課後", "漆黒の翼を広げた堕天使の降臨", "異界の門が開こうとしている地下通路",
+            "魔眼が暴走しそうな図書室の隅", "聖戦の火蓋が切られた雨の屋上", "森の奥、巨大な喋るキノコを前に",
+            "シュガーキャッスルの衛兵へ", "三日月のブランコに揺れる妖精へ", "呪われた聖剣を引き抜こうとする時",
+            "暗黒組織の幹部が集まる円卓会議"
         ];
         
-        // 言葉リストの拡充 (中二病・メルヘン追加)
         const KOTOBA_LIST = [
             "鼻の穴に小指を突っ込ませて？", "今着ている服のタグ撮らせて", "3分間だけ息を代わって",
             "私のことを「ママ」と呼んで", "100円貸してそのまま忘れて", "全力の変顔を披露してください",
             "語尾に「でござる」をつけて", "靴を左右履き替えない？", "歯にネギがついてますよ。",
             "社会の窓が全開ですよ。", "実は私、あなたのことが好きなんです。", "とりあえず、ビールでいい？",
-            "眉毛を繋げてもいいですか？", "無音でダンスを踊りませんか？", "ここで全力の『コマネチ』を見せて？",
-            "我が闇の力、差し支えなければ解放していい？", "契約の血を、この聖杯に注いでも？", "貴様の魂、差し支えなければ浄化させて？",
-            "終焉の調べを、一緒に奏でてくれませんか？", "この眼に宿る狂気、直視しないでくれますか？", "混沌の深淵より、差し支えなければ這い出して？",
-            "運命の歯車を、1ミリだけ逆回転させていい？", "邪眼が共鳴している…差し支えなければ離れて？", "魔法の粉を、差し支えなければ振りかけて？",
-            "ガラスの靴、片方だけ試着させてくれますか？", "お空の雲を、一口だけ味見してもいい？", "星のしずくで、差し支えなければお茶淹れる？",
-            "あなたの夢の中に、お邪魔してもよろしいかしら？", "虹の彼方まで、差し支えなければ連れてって？", "キャンディの魔法で、あなたを幸せにしてもいい？",
-            "喋るティーカップを、一つ分けていただけないかしら？", "森の精霊に、差し支えなければ挨拶して？", "私の魔力が尽きるまで、側にいてくれませんか？",
-            "この世界を、差し支えなければリセットしてもいい？", "闇に飲まれよ！…あ、差し支えなければで。"
+            "耳たぶを少しだけ触っていい？", "眉毛を繋げてもいいですか？", "無音でダンスを踊りませんか？",
+            "我が闇の力、解放していい？", "契約の血を、この聖杯に注いで？", "貴様の魂、浄化させて？",
+            "終焉の調べを奏でませんか？", "この眼に宿る狂気を見ないで？", "深淵より、這い出して？",
+            "運命の歯車を、逆回転させて？", "邪眼が共鳴している…離れて？", "魔法の粉を、振りかけて？",
+            "ガラスの靴、試着させて？", "お空の雲を、味見してもいい？", "星のしずくでお茶淹れる？",
+            "夢の中に、お邪魔しても？", "虹の彼方まで、連れてって？", "キャンディの魔法、受けて？",
+            "喋るティーカップ、分けて？", "森の精霊に、挨拶して？", "魔力が尽きるまで、側にいて？",
+            "この世界を、リセットしていい？", "闇に飲まれよ！…差し支えなければ。"
         ];
 
         const Confetti = ({ color }) => {
@@ -202,6 +199,7 @@
 
                     <main className="w-full max-w-md flex-grow flex flex-col z-10 justify-center px-1">
                         
+                        {/* スタート画面 */}
                         {gameState === 'START' && (
                             <div className="flex flex-col gap-6 items-center fade-in">
                                 <div className="text-center mincho -mt-24 mb-4 space-y-4">
@@ -213,17 +211,17 @@
                                         <div className="space-y-1 text-center">
                                             <h2 className="text-[8px] font-black text-slate-400 uppercase tracking-widest leading-none">人数</h2>
                                             <div className="flex items-center justify-between bg-white/60 p-0.5 rounded-full border border-white">
-                                                <button onClick={() => setPlayerCount(Math.max(2, playerCount - 1))} className="w-7 h-7 rounded-full bg-white shadow-sm flex items-center justify-center text-slate-400 transition-colors hover:bg-red-50"><IconMinus /></button>
+                                                <button onClick={() => setPlayerCount(Math.max(2, playerCount - 1))} className="w-7 h-7 rounded-full bg-white shadow-sm flex items-center justify-center text-slate-400"><IconMinus /></button>
                                                 <span className="text-xl font-black text-indigo-950">{playerCount}名</span>
-                                                <button onClick={() => setPlayerCount(Math.min(5, playerCount + 1))} className="w-7 h-7 rounded-full bg-white shadow-sm flex items-center justify-center text-indigo-500 transition-colors hover:bg-blue-50"><IconPlus /></button>
+                                                <button onClick={() => setPlayerCount(Math.min(5, playerCount + 1))} className="w-7 h-7 rounded-full bg-white shadow-sm flex items-center justify-center text-indigo-500"><IconPlus /></button>
                                             </div>
                                         </div>
                                         <div className="space-y-1 text-center">
                                             <h2 className="text-[8px] font-black text-slate-400 uppercase tracking-widest leading-none">勝利点</h2>
                                             <div className="flex items-center justify-between bg-white/60 p-0.5 rounded-full border border-white">
-                                                <button onClick={() => adjustGoal(-1)} className="w-7 h-7 rounded-full bg-white shadow-sm flex items-center justify-center text-slate-400 transition-colors hover:bg-red-50"><IconMinus /></button>
+                                                <button onClick={() => adjustGoal(-1)} className="w-7 h-7 rounded-full bg-white shadow-sm flex items-center justify-center text-slate-400"><IconMinus /></button>
                                                 <span className="text-xl font-black text-indigo-950">{pointGoal}</span>
-                                                <button onClick={() => adjustGoal(1)} className="w-7 h-7 rounded-full bg-white shadow-sm flex items-center justify-center text-indigo-500 transition-colors hover:bg-blue-50"><IconPlus /></button>
+                                                <button onClick={() => adjustGoal(1)} className="w-7 h-7 rounded-full bg-white shadow-sm flex items-center justify-center text-indigo-500"><IconPlus /></button>
                                             </div>
                                         </div>
                                     </div>
@@ -232,13 +230,14 @@
                             </div>
                         )}
 
+                        {/* スマホを渡す画面 */}
                         {gameState === 'ODAI_DRAW' && (
-                            <div className="space-y-3 py-1 flex flex-col items-center fade-in">
-                                <h2 className="text-xl mincho font-black text-indigo-950 text-center leading-tight px-2 underline decoration-indigo-200">「{currentOdai}」</h2>
+                            <div className="space-y-6 py-1 flex flex-col items-center fade-in">
+                                <h2 className="text-3xl sm:text-4xl mincho font-black text-indigo-950 text-center leading-tight px-2 underline underline-offset-8 decoration-indigo-300">「{currentOdai}」</h2>
                                 <div className="w-full bg-indigo-950 text-white p-5 rounded-[2rem] shadow-xl text-center space-y-4">
-                                    <div className="flex flex-col items-center gap-2">
-                                        <div className={`w-12 h-12 ${PLAYER_CONFIG[currentPlayerInputIndex].bg} rounded-xl flex items-center justify-center shadow-lg border border-white/20 rotate-3`}>
-                                            <IconGem size={28} color="white" fill="white" />
+                                    <div className="flex flex-col items-center gap-3">
+                                        <div className={`w-14 h-14 ${PLAYER_CONFIG[currentPlayerInputIndex].bg} rounded-xl flex items-center justify-center shadow-lg border border-white/20 rotate-3`}>
+                                            <IconGem size={32} color="white" fill="white" />
                                         </div>
                                         <p className="text-lg font-black" style={{ color: PLAYER_CONFIG[currentPlayerInputIndex].color }}>{PLAYER_CONFIG[currentPlayerInputIndex].label}</p>
                                         <p className="text-[10px] text-indigo-100 opacity-80 leading-relaxed px-4 text-center">スマホを渡してください。<br/>内緒で手札を選びます。</p>
@@ -248,14 +247,16 @@
                             </div>
                         )}
 
+                        {/* 手札選択画面 */}
                         {gameState === 'PLAYER_SELECT' && (
-                            <div className="space-y-2 py-1 fade-in text-slate-800">
-                                <div className="bg-white p-2 rounded-lg border-l-[4px] shadow-sm flex items-center justify-center" style={{ borderColor: PLAYER_CONFIG[currentPlayerInputIndex].color }}>
-                                    <p className="font-bold text-indigo-950 text-xs italic">「{currentOdai}」</p>
+                            <div className="space-y-4 py-1 fade-in">
+                                <div className="bg-white p-4 rounded-xl border-l-[6px] shadow-sm flex flex-col items-center justify-center" style={{ borderColor: PLAYER_CONFIG[currentPlayerInputIndex].color }}>
+                                    <span className="text-[10px] font-black text-slate-300 uppercase mb-1">現在のシチュエーション</span>
+                                    <p className="font-bold text-indigo-950 text-xl mincho text-center leading-tight italic">「{currentOdai}」</p>
                                 </div>
-                                <div className="grid gap-1 overflow-y-auto max-h-[50vh] pr-1 no-scrollbar pb-2">
+                                <div className="grid gap-1.5 overflow-y-auto max-h-[50vh] pr-1 no-scrollbar pb-2">
                                     {playerHands[currentPlayerInputIndex]?.map((card, i) => (
-                                        <button key={i} onClick={() => submitCard(currentPlayerInputIndex, card)} className="bg-white p-2.5 text-left rounded-lg border border-slate-100 shadow-sm font-bold flex items-center gap-2 active:bg-indigo-50 transition-all">
+                                        <button key={i} onClick={() => submitCard(currentPlayerInputIndex, card)} className="bg-white p-3 text-left rounded-lg border border-slate-100 shadow-sm font-bold flex items-center gap-2.5 active:bg-indigo-50 transition-all">
                                             <span className="text-[8px] font-black text-slate-200 flex-shrink-0">0{i+1}</span>
                                             <span className="text-sm leading-snug">{card}</span>
                                         </button>
@@ -264,10 +265,12 @@
                             </div>
                         )}
 
+                        {/* 回答発表画面 */}
                         {gameState === 'REVEAL' && (
-                            <div className="space-y-2 py-1 pb-14 fade-in overflow-y-auto max-h-[85vh] no-scrollbar">
-                                <div className="p-2.5 rounded-lg shadow-sm text-center text-white bg-indigo-900 border border-white/20">
-                                    <h3 className="text-xs font-black mincho italic leading-tight">「{currentOdai}」</h3>
+                            <div className="space-y-3 py-1 pb-14 fade-in overflow-y-auto max-h-[85vh] no-scrollbar">
+                                <div className="p-4 rounded-xl shadow-sm text-center text-white bg-indigo-900 border border-white/20">
+                                    <span className="text-[9px] font-black opacity-60 uppercase block mb-1">お題</span>
+                                    <h3 className="text-xl font-black mincho leading-tight italic">「{currentOdai}」</h3>
                                 </div>
                                 {submissions.map((sub, i) => {
                                     const isRevealed = revealedIndices.includes(i);
@@ -282,7 +285,7 @@
                                                         <p className="text-base font-black text-indigo-950 leading-tight">「{sub.card}」</p>
                                                     </div>
                                                 ) : (
-                                                    <div className="flex flex-col items-center gap-1 opacity-50"><IconEye size={14} /><p className="font-black text-[7px] uppercase tracking-widest leading-none">公開</p></div>
+                                                    <div className="flex flex-col items-center gap-1 opacity-50"><IconEye size={14} /><p className="font-black text-[7px] uppercase tracking-widest leading-none">回答 #{i+1} を見る</p></div>
                                                 )}
                                             </div>
                                             {isRevealed && (
@@ -297,11 +300,12 @@
                             </div>
                         )}
 
+                        {/* 勝利画面 */}
                         {gameState === 'WINNER' && (
                             <div className="flex flex-col items-center gap-3 py-1 fade-in text-center relative">
                                 {gameChampion && <div className="halo-effect" />}
                                 <div className="space-y-1">
-                                    <div className={`w-20 h-20 ${gameChampion ? gameChampion.bg : PLAYER_CONFIG[selectedWinner.playerIdx].bg} rounded-full flex items-center justify-center mx-auto shadow-xl ring-4 ring-white relative z-10 ${gameChampion ? 'champion-shine' : 'animate-bounce'}`}>
+                                    <div className={`w-14 h-14 ${gameChampion ? gameChampion.bg : PLAYER_CONFIG[selectedWinner.playerIdx].bg} rounded-full flex items-center justify-center mx-auto shadow-xl ring-4 ring-white relative z-10 ${gameChampion ? 'champion-shine' : 'animate-bounce'}`}>
                                         <IconGem size={48} color="white" fill="white" />
                                         {gameChampion && <div className="absolute -top-3 -right-3 p-1 rotate-12 scale-150"><IconCrown size={32} /></div>}
                                     </div>
@@ -309,23 +313,25 @@
                                         {gameChampion ? "CONGRATULATIONS!" : "ROUND WINNER"}
                                     </h2>
                                 </div>
-                                <div className="glass-card w-full p-4 rounded-xl text-center space-y-1.5 border-2 shadow-md" style={{ borderColor: PLAYER_CONFIG[selectedWinner.playerIdx].color }}>
+                                <div className="glass-card w-full p-4 rounded-xl text-center space-y-2 border-2 shadow-md" style={{ borderColor: PLAYER_CONFIG[selectedWinner.playerIdx].color }}>
+                                    <p className="text-[10px] font-black text-slate-400 mb-1">お題: {currentOdai}</p>
                                     <p className="text-indigo-600 text-[10px] font-bold italic leading-none">あのー、差し支えなければ、</p>
                                     <p className="text-lg font-black text-indigo-950 leading-tight italic">「{selectedWinner.card}」</p>
                                 </div>
                                 {gameChampion ? (
-                                    <div className="w-full space-y-3 pt-2">
+                                    <div className="w-full space-y-3 pt-2 px-4">
                                         <p className="text-center text-sm font-black text-slate-500 mincho underline decoration-gold">👑 {gameChampion.label}さんが天下を獲りました</p>
                                         <button onClick={() => setGameState('START')} className="w-full py-4 bg-indigo-600 text-white text-lg font-black rounded-full shadow-2xl active:scale-95 transition-all border-b-4 border-indigo-800">最初から遊ぶ</button>
                                     </div>
                                 ) : (
-                                    <button onClick={() => startRound((oyaIndex + 1) % playerCount)} className="w-full py-4 bg-indigo-950 text-white text-base font-black rounded-full shadow-lg active:scale-95 transition-all">次へ進む</button>
+                                    <button onClick={() => startRound((oyaIndex + 1) % playerCount)} className="w-full py-3 bg-indigo-950 text-white text-base font-black rounded-full shadow-lg active:scale-95 transition-all">次へ進む</button>
                                 )}
                                 {!gameChampion && <button onClick={() => setGameState('START')} className="text-slate-400 font-bold text-[8px] uppercase tracking-widest flex items-center gap-1 opacity-50"><IconRotate /> 中断</button>}
                             </div>
                         )}
                     </main>
 
+                    {/* スコア表示（フッター） */}
                     {gameState !== 'START' && (
                         <footer className="w-full max-w-md pt-1.5 border-t border-indigo-100 overflow-x-auto no-scrollbar pb-3 z-10 fade-in">
                             <div className="flex justify-around gap-1 min-w-full px-1">
